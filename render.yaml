@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: ap-welfare-backend
+    env: node
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_USER
+        value: root
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_DATABASE
+        value: ap_welfare_logs
+      - key: CORS_ORIGIN
+        value: https://your-vercel-domain.vercel.app
+
+  - type: pserv
+    name: ap-welfare-mysql
+    env: mysql
+    plan: free
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: allow all
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        sync: false
+      - key: MYSQL_DATABASE
+        value: ap_welfare_logs
